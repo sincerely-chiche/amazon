@@ -17,20 +17,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(morgan("dev"));
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-app.post("/", (req, res) => {
-  let user = new User(req.body);
-  user.save(function (err) {
-    if (err) {
-      console.error(err);
-      res.json(err);
-    }
+//require apis
+const productRoutes = require("./routes/product");
+const categoryRoutes = require("./routes/category");
+const ownerRoutes = require("./routes/owner");
 
-    res.json("user details saved successfully");
-  });
-});
+//route middlewares
+app.use("/api/products", productRoutes);
+app.use("/api/categories", categoryRoutes);
+app.use("/api/owners", ownerRoutes);
 
 const port = process.env.PORT || 3000;
 
